@@ -1,0 +1,4 @@
+User-agent: *
+Allow: /
+
+Sitemap: https://exfutura.net.ar/sitemap.xml
