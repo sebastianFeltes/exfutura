@@ -6,7 +6,7 @@ import { defineConfig } from "vitest/config";
 const casoImagen = existsSync("public/casos/el-nino-hoy.png");
 
 export default defineConfig({
-  base: "/",
+  base: "./",
   plugins: [react(), tailwindcss()],
   define: {
     __CASO_IMAGEN__: JSON.stringify(casoImagen),
