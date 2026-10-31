@@ -1,30 +1,30 @@
 import { content } from "../content.ts";
 import { Etiqueta } from "./Etiqueta.tsx";
-import { Icono } from "./Icono.tsx";
+import { LogoFondo } from "./Logo.tsx";
 import { Reveal } from "./Reveal.tsx";
 
 export function Problema() {
   return (
-    <section id="problema" className="seccion" aria-labelledby="titulo-problema">
+    <section id="problema" className="seccion fondo-ibelick-claro" aria-labelledby="titulo-problema">
+      <LogoFondo variant="dark" />
       <Reveal>
         <div className="contenedor">
           <Etiqueta>{content.problema.etiqueta}</Etiqueta>
           <h2 id="titulo-problema" className="titulo">
             {content.problema.titulo}
           </h2>
-          <p className="bajada">{content.problema.bajada}</p>
-          <ul className="mt-10 grid gap-4 sm:grid-cols-2">
-            {content.problema.rubros.map((rubro) => (
-              <li key={rubro.titulo} className="tarjeta p-6">
-                <Icono nombre={rubro.icono} />
-                <h3 className="subtitulo mt-4">{rubro.titulo}</h3>
-                <p className="mt-2">{rubro.texto}</p>
+          <ul className="problemas cascada">
+            {content.problema.items.map((item) => (
+              <li key={item.numero} className="tarjeta tarjeta-problema">
+                <span className="numero-fondo" aria-hidden="true">
+                  {item.numero}
+                </span>
+                <h3 className="subtitulo">{item.titulo}</h3>
+                <p className="medida">{item.texto}</p>
               </li>
             ))}
           </ul>
-          <p role="note" className="aviso-riesgo mt-8">
-            {content.problema.cierre}
-          </p>
+          <p className="cierre">{content.problema.cierre}</p>
         </div>
       </Reveal>
     </section>

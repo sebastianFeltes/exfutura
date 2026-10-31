@@ -1,40 +1,58 @@
 import { content } from "../content.ts";
-import { Escribinos } from "./Escribinos.tsx";
 import { Etiqueta } from "./Etiqueta.tsx";
+import { LogoFondo } from "./Logo.tsx";
+import { Foto } from "./Foto.tsx";
+import { Icono } from "./Icono.tsx";
+import { Numero } from "./Numero.tsx";
 import { Reveal } from "./Reveal.tsx";
 
 export function Jornada() {
+  const { jornada } = content;
+
   return (
-    <section id="jornada" className="seccion" aria-labelledby="titulo-jornada">
+    <section id="jornada" className="seccion fondo-ibelick on-noche con-grano" aria-labelledby="titulo-jornada">
+      <LogoFondo variant="light" />
       <Reveal>
         <div className="contenedor">
-          <Etiqueta>{content.jornada.etiqueta}</Etiqueta>
-          <h2 id="titulo-jornada" className="titulo">
-            {content.jornada.titulo}
+          <Etiqueta noche>{jornada.etiqueta}</Etiqueta>
+          <h2 id="titulo-jornada" className="titulo titulo-noche">
+            {jornada.titulo}
           </h2>
-          <p className="bajada">{content.jornada.bajada}</p>
-          <div className="mt-10 grid items-start gap-8 lg:grid-cols-2">
-            <div className="tarjeta-jornada lg:order-2">
-              <ul>
-                {content.jornada.datos.map((dato) => (
-                  <li key={dato} className={dato.startsWith("ARS") ? "dato-precio" : "dato"}>
-                    {dato}
+          <div className="franja">
+            {jornada.datos.map((dato) => (
+              <div key={dato.unidad} className="dato-grande">
+                <Numero valor={dato.valor} />
+                <p className="dato-linea">
+                  {"prefijo" in dato && dato.prefijo ? <span className="dato-prefijo">{dato.prefijo} </span> : null}
+                  <span className="dato-unidad">{dato.unidad}</span>
+                </p>
+                {dato.detalle ? <p className="dato-detalle">{dato.detalle}</p> : null}
+              </div>
+            ))}
+          </div>
+          <div className="jornada-cuerpo">
+            <div>
+              <h3 className="subtitulo subtitulo-noche">{jornada.llevanTitulo}</h3>
+              <ul className="llevan cascada">
+                {jornada.llevan.map((item) => (
+                  <li key={item.texto}>
+                    <span className="icono-caja icono-noche">
+                      <Icono nombre={item.icono} />
+                    </span>
+                    <p>{item.texto}</p>
                   </li>
                 ))}
               </ul>
             </div>
-            <div className="lg:order-1">
-              <h3 className="subtitulo">{content.jornada.llevanTitulo}</h3>
-              <ul className="mt-4 flex flex-col gap-3 border-l border-borde pl-4">
-                {content.jornada.llevan.map((item) => (
-                  <li key={item}>{item}</li>
-                ))}
-              </ul>
-              <div className="mt-8">
-                <Escribinos />
-              </div>
-            </div>
+            <Foto
+              archivo={jornada.imagen}
+              alt={jornada.alt}
+              width={jornada.ancho}
+              height={jornada.alto}
+              className="jornada-foto"
+            />
           </div>
+          <p className="destacado">{jornada.destacado}</p>
         </div>
       </Reveal>
     </section>

@@ -49,7 +49,18 @@ function woffATtf(buffer) {
   return salida;
 }
 
-const woff = readFileSync("node_modules/@fontsource/manrope/files/manrope-latin-700-normal.woff");
+const marca = readFileSync("public/favicon.svg", "utf8");
+
+function png(svg, ancho, destino) {
+  const imagen = new Resvg(svg, { fitTo: { mode: "width", value: ancho } });
+  writeFileSync(destino, imagen.render().asPng());
+}
+
+png(marca, 32, "public/favicon-32.png");
+png(marca, 180, "public/apple-touch-icon.png");
+png(marca, 512, "public/icon-512.png");
+
+const woff = readFileSync("node_modules/@fontsource/manrope/files/manrope-latin-800-normal.woff");
 const fuente = "scripts/.manrope.ttf";
 writeFileSync(fuente, woffATtf(woff));
 
@@ -61,18 +72,17 @@ const svg = `<?xml version="1.0" encoding="UTF-8"?>
       Array.from({ length: 67 }, (_, columna) => `<circle cx="${columna * 18 + 1}" cy="${fila * 18 + 1}" r="1"/>`).join(""),
     ).join("")}
   </g>
-  <svg x="80" y="150" width="96" height="96" viewBox="0 0 32 32">
-    <path d="M2.5 7 L12.5 25" fill="none" stroke="#14B8A6" stroke-width="2.75" stroke-linecap="square"/>
-    <path d="M2.5 25 L5.7 19.2" fill="none" stroke="#14B8A6" stroke-width="2.75" stroke-linecap="square"/>
-    <path d="M9.3 12.8 L12.5 7" fill="none" stroke="#14B8A6" stroke-width="2.75" stroke-linecap="square"/>
-    <path d="M28.5 7 H17.5 V25" fill="none" stroke="#14B8A6" stroke-width="2.75" stroke-linecap="square" stroke-linejoin="miter"/>
-    <path d="M17.5 16 H24.5" fill="none" stroke="#14B8A6" stroke-width="2.75" stroke-linecap="square"/>
+  <svg x="80" y="150" width="88" height="88" viewBox="0 0 100 100">
+    <path d="M28 28 L72 72" fill="none" stroke="#14B8A6" stroke-width="18" stroke-linecap="square"/>
+    <path d="M72 28 L28 72" fill="none" stroke="#14B8A6" stroke-width="18" stroke-linecap="square"/>
   </svg>
-  <text x="196" y="214" fill="#F7F7F5" font-family="Manrope" font-size="42" font-weight="700" letter-spacing="-0.4">exfutura</text>
-  <text x="80" y="330" fill="#F7F7F5" font-family="Manrope" font-size="58" font-weight="700">
-    <tspan x="80" dy="0">Que tu equipo use IA</tspan>
-    <tspan x="80" dy="74">sin regalar los datos</tspan>
-    <tspan x="80" dy="74">de tus clientes.</tspan>
+  <text x="188" y="208" font-family="Manrope" font-size="42" font-weight="800" letter-spacing="-0.8">
+    <tspan fill="#F7F7F5">e</tspan><tspan fill="#14B8A6">x</tspan><tspan fill="#F7F7F5">futura</tspan>
+  </text>
+  <text x="80" y="320" fill="#F7F7F5" font-family="Manrope" font-size="52" font-weight="800">
+    <tspan x="80" dy="0">Una mañana para que tu equipo</tspan>
+    <tspan x="80" dy="68">no caiga en estafas y use IA</tspan>
+    <tspan x="80" dy="68">sin riesgo.</tspan>
   </text>
 </svg>`;
 

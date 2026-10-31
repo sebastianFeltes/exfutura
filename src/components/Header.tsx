@@ -1,11 +1,11 @@
 import { useEffect, useState } from "react";
 import { content } from "../content.ts";
-import { Escribinos } from "./Escribinos.tsx";
 import { Logo } from "./Logo.tsx";
 
 export function Header() {
   const [abierto, setAbierto] = useState(false);
   const [activa, setActiva] = useState("");
+  const [scrolled, setScrolled] = useState(false);
 
   useEffect(() => {
     const nodos = content.nav
@@ -26,6 +26,15 @@ export function Header() {
   }, []);
 
   useEffect(() => {
+    function alScroll() {
+      setScrolled(window.scrollY > 8);
+    }
+    alScroll();
+    window.addEventListener("scroll", alScroll, { passive: true });
+    return () => window.removeEventListener("scroll", alScroll);
+  }, []);
+
+  useEffect(() => {
     if (!abierto) return;
     function cerrar(evento: KeyboardEvent) {
       if (evento.key === "Escape") setAbierto(false);
@@ -34,35 +43,38 @@ export function Header() {
     return () => document.removeEventListener("keydown", cerrar);
   }, [abierto]);
 
+  const solido = scrolled || abierto;
+
   return (
-    <header className="fixed inset-x-0 top-0 z-50 border-b border-borde bg-superficie">
-      <div className="contenedor flex h-16 items-center gap-3">
-        <a href="#contenido" aria-label={content.inicio} className="rounded-[8px]">
-          <span aria-hidden="true">
-            <Logo variant="horizontal" fondo="claro" />
-          </span>
+    <header className={solido ? "header header-scroll on-noche" : "header on-noche"}>
+      <div className="contenedor flex min-h-16 items-center gap-3 py-2">
+        <a href="#inicio" aria-label={content.inicio} className="rounded-full">
+          <Logo variant="light" />
         </a>
-        <nav
-          id="menu-principal"
-          aria-label={content.menuPrincipal}
-          className={abierto ? "menu abierto" : "menu"}
-        >
-          <ul className="flex flex-col gap-1 min-[1100px]:flex-row min-[1100px]:items-center min-[1100px]:justify-end">
-            {content.nav.map((item) => (
-              <li key={item.id}>
-                <a
-                  href={item.href}
-                  aria-current={activa === item.id ? "location" : undefined}
-                  className={activa === item.id ? "nav-link nav-link-activa" : "nav-link"}
-                  onClick={() => setAbierto(false)}
-                >
-                  {item.label}
-                </a>
-              </li>
-            ))}
-            <li className="menu-cta">
-              <Escribinos />
-            </li>
+        <nav id="menu-principal" aria-label={content.menuPrincipal} className={abierto ? "menu abierto" : "menu"}>
+          <ul className="flex flex-col items-start gap-2 min-[1100px]:flex-row min-[1100px]:items-center min-[1100px]:justify-end">
+            {content.nav.map((item) => {
+              const contacto = item.id === "contacto";
+              const clase = [
+                "nav-link",
+                contacto ? "nav-contacto" : "",
+                !contacto && activa === item.id ? "nav-link-activa" : "",
+              ]
+                .filter(Boolean)
+                .join(" ");
+              return (
+                <li key={item.id}>
+                  <a
+                    href={item.href}
+                    aria-current={activa === item.id ? "location" : undefined}
+                    className={clase}
+                    onClick={() => setAbierto(false)}
+                  >
+                    {item.label}
+                  </a>
+                </li>
+              );
+            })}
           </ul>
         </nav>
         <button
@@ -75,9 +87,6 @@ export function Header() {
           <span className="sr-only">{abierto ? content.menuCerrar : content.menuAbrir}</span>
           <span className="menu-barras" aria-hidden="true" />
         </button>
-        <div className="cta-escritorio">
-          <Escribinos />
-        </div>
       </div>
     </header>
   );

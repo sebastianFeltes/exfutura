@@ -1,11 +1,11 @@
 import { useState, type FormEvent } from "react";
 import { config } from "../config.ts";
 import { content } from "../content.ts";
-import { mailtoConsulta } from "../lib/mailto.ts";
-import { Escribinos } from "./Escribinos.tsx";
+import { mailtoJornada } from "../lib/mailto.ts";
+import { Logo, LogoFondo } from "./Logo.tsx";
 import { Reveal } from "./Reveal.tsx";
 
-type Campo = (typeof content.contacto.campos)[number]["id"];
+type Campo = (typeof content.contacto.campos)[number]["id"] | "mensaje";
 type Valores = Record<Campo, string>;
 type Errores = Partial<Record<Campo, string>>;
 type Aviso = "ok" | "error" | null;
@@ -13,9 +13,8 @@ type Aviso = "ok" | "error" | null;
 const vacio: Valores = {
   nombre: "",
   empresa: "",
-  rubro: "",
-  email: "",
   personas: "",
+  mensaje: "",
 };
 
 function validar(valores: Valores): Errores {
@@ -23,12 +22,8 @@ function validar(valores: Valores): Errores {
   const errores: Errores = {};
   if (!valores.nombre.trim()) errores.nombre = mensajes.nombre;
   if (!valores.empresa.trim()) errores.empresa = mensajes.empresa;
-  if (!valores.rubro.trim()) errores.rubro = mensajes.rubro;
-  if (!valores.email.trim()) errores.email = mensajes.email;
-  else if (!/^[^\s@]+@[^\s@]+\.[^\s@]+$/.test(valores.email.trim())) {
-    errores.email = mensajes.emailInvalido;
-  }
   if (!valores.personas.trim()) errores.personas = mensajes.personas;
+  if (!valores.mensaje.trim()) errores.mensaje = mensajes.mensaje;
   return errores;
 }
 
@@ -51,6 +46,7 @@ export function Contacto() {
   const [envio, setEnvio] = useState<Aviso>(null);
   const [copia, setCopia] = useState<Aviso>(null);
   const email = config.email.trim();
+  const razon = config.razonSocial.trim();
 
   function onSubmit(evento: FormEvent<HTMLFormElement>) {
     evento.preventDefault();
@@ -63,11 +59,10 @@ export function Contacto() {
     const cuerpo = [
       `Nombre: ${valores.nombre.trim()}`,
       `Empresa: ${valores.empresa.trim()}`,
-      `Rubro: ${valores.rubro.trim()}`,
-      `Email: ${valores.email.trim()}`,
       `Cantidad de personas: ${valores.personas.trim()}`,
+      `Mensaje: ${valores.mensaje.trim()}`,
     ].join("\n");
-    const href = mailtoConsulta(cuerpo);
+    const href = mailtoJornada(cuerpo);
     if (!href || !abrirCorreo(href)) {
       setEnvio("error");
       return;
@@ -89,28 +84,23 @@ export function Contacto() {
   }
 
   return (
-    <section id="contacto" className="seccion" aria-labelledby="titulo-contacto">
+    <footer id="contacto" className="seccion fondo-ibelick on-noche con-grano" aria-labelledby="titulo-contacto">
+      <LogoFondo variant="light" />
       <Reveal>
-        <div className="contenedor">
-          <h2 id="titulo-contacto" className="titulo">
-            {content.contacto.titulo}
-          </h2>
-          <p className="bajada">{content.contacto.bajada}</p>
-          <div className="acciones">
-            <Escribinos />
-            <a className="btn btn-siempre btn-secundario" href="#formulario">
-              {content.ctaSecundario}
-            </a>
-          </div>
-          {email ? (
-            <form id="formulario" className="mt-10 max-w-2xl" noValidate onSubmit={onSubmit}>
-              <div className="grid gap-4 sm:grid-cols-2">
+        <div className="contenedor contacto-grid">
+          <div>
+            <h2 id="titulo-contacto" className="titulo titulo-noche">
+              {content.contacto.titulo}
+            </h2>
+            <p className="bajada bajada-noche">{content.contacto.bajada}</p>
+            {email ? (
+              <form className="formulario" noValidate onSubmit={onSubmit}>
                 {content.contacto.campos.map((campo) => {
                   const error = errores[campo.id];
                   const errorId = `error-${campo.id}`;
                   return (
-                    <div key={campo.id} className={campo.id === "personas" ? "sm:col-span-2" : undefined}>
-                      <label className="campo-etiqueta" htmlFor={campo.id}>
+                    <div key={campo.id}>
+                      <label className="campo-etiqueta campo-noche" htmlFor={campo.id}>
                         {campo.etiqueta}
                       </label>
                       <input
@@ -136,35 +126,78 @@ export function Contacto() {
                     </div>
                   );
                 })}
-              </div>
-              <button type="submit" className="btn btn-siempre btn-primario mt-6">
-                {content.contacto.enviar}
-              </button>
-              {envio === "ok" ? (
-                <p role="status" className="mt-4">
-                  {content.contacto.ok}
-                </p>
-              ) : null}
-              {envio === "error" ? (
-                <p role="alert" className="mt-4">
-                  {content.contacto.error} {email}.
-                </p>
-              ) : null}
-              <p className="mt-6 text-[17px] leading-7">
-                <span className="select-all">{email}</span>
+                <div>
+                  <label className="campo-etiqueta campo-noche" htmlFor={content.contacto.mensaje.id}>
+                    {content.contacto.mensaje.etiqueta}
+                  </label>
+                  <textarea
+                    id={content.contacto.mensaje.id}
+                    name={content.contacto.mensaje.id}
+                    className="campo campo-area"
+                    value={valores.mensaje}
+                    required
+                    aria-invalid={errores.mensaje ? true : undefined}
+                    aria-describedby={errores.mensaje ? "error-mensaje" : undefined}
+                    onChange={(evento) => {
+                      const valor = evento.target.value;
+                      setValores((actual) => ({ ...actual, mensaje: valor }));
+                    }}
+                  />
+                  {errores.mensaje ? (
+                    <p id="error-mensaje" className="campo-error">
+                      {errores.mensaje}
+                    </p>
+                  ) : null}
+                </div>
+                <button type="submit" className="btn btn-siempre btn-primario">
+                  {content.contacto.enviar}
+                </button>
+                {envio === "ok" ? (
+                  <p role="status">{content.contacto.ok}</p>
+                ) : null}
+                {envio === "error" ? (
+                  <p role="alert">
+                    {content.contacto.error} {email}.
+                  </p>
+                ) : null}
+              </form>
+            ) : null}
+          </div>
+          <div className="pie-columna">
+            <Logo variant="light" />
+            <p className="mt-6 text-[17px] leading-7">{content.pie.lugar}</p>
+            {email ? (
+              <p className="mt-2 text-[17px] leading-7">
+                <a className="enlace" href={`mailto:${email}`}>
+                  {email}
+                </a>
               </p>
-              <button type="button" className="btn btn-siempre btn-secundario mt-3" onClick={() => void copiarEmail()}>
-                {content.contacto.copiar}
-              </button>
-              <p role="status" className="mt-3 min-h-6 text-[16px] leading-6">
-                {copia === "ok" ? content.contacto.copiado : null}
-                {copia === "error" ? content.contacto.copiaError : null}
-              </p>
-              <p className="text-[16px] leading-6 text-texto-suave">{content.contacto.aviso}</p>
-            </form>
-          ) : null}
+            ) : null}
+            <p className="mt-2 text-[17px] leading-7">{content.pie.software}</p>
+            <p className="mt-2 text-[16px] leading-6">{content.pie.fotos}</p>
+            <p className="mt-2 text-[16px] leading-6">
+              {content.pie.derechos}
+              {razon ? ` ${razon}` : null}
+            </p>
+            {email ? (
+              <>
+                <button
+                  type="button"
+                  className="btn btn-siempre btn-secundario btn-secundario-noche mt-6"
+                  onClick={() => void copiarEmail()}
+                >
+                  {content.contacto.copiar}
+                </button>
+                <p role="status" className="mt-3 min-h-6 text-[16px] leading-6">
+                  {copia === "ok" ? content.contacto.copiado : null}
+                  {copia === "error" ? content.contacto.copiaError : null}
+                </p>
+                <p className="text-[16px] leading-6 text-fondo">{content.contacto.aviso}</p>
+              </>
+            ) : null}
+          </div>
         </div>
       </Reveal>
-    </section>
+    </footer>
   );
 }

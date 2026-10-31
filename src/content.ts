@@ -1,20 +1,8 @@
-import { config } from "./config.ts";
-
-export type Icono =
-  | "calculator"
-  | "house"
-  | "stethoscope"
-  | "store"
-  | "shield-check"
-  | "lock-keyhole"
-  | "clipboard-check"
-  | "workflow"
-  | "code-xml";
+export type Icono = "mail-warning" | "file-warning" | "package-x" | "key-round" | "sparkles";
 
 export const content = {
   marca: "exfutura",
-  cta: "Escribinos",
-  ctaSecundario: "Prefiero dejar mis datos",
+  cta: "Contacto",
   verJornada: "Ver la jornada",
   saltar: "Saltar al contenido",
   inicio: "Exfutura, inicio",
@@ -23,215 +11,169 @@ export const content = {
   menuPrincipal: "Principal",
   nav: [
     { id: "problema", href: "#problema", label: "Problema" },
-    { id: "servicios", href: "#servicios", label: "Servicios" },
     { id: "jornada", href: "#jornada", label: "Jornada" },
     { id: "como-funciona", href: "#como-funciona", label: "Cómo funciona" },
-    { id: "casos", href: "#casos", label: "Casos" },
-    { id: "sobre-mi", href: "#sobre-mi", label: "Sobre mí" },
-    { id: "preguntas", href: "#preguntas", label: "Preguntas" },
+    { id: "quien", href: "#quien", label: "Instructor" },
     { id: "contacto", href: "#contacto", label: "Contacto" },
   ],
   hero: {
-    etiqueta: "// ia segura · ciberseguridad · software",
-    titulo: "Que tu equipo use IA sin regalar los datos de tus clientes.",
+    etiqueta: "// jornada de seguridad e ia para pymes",
+    titulo: [
+      { texto: "Una mañana para que tu equipo no caiga en ", acento: false },
+      { texto: "estafas", acento: true },
+      { texto: " y use ", acento: false },
+      { texto: "IA", acento: true },
+      { texto: " sin riesgo.", acento: false },
+    ],
     bajada:
-      "Una jornada práctica en tu oficina para que tu equipo aproveche la inteligencia artificial sin exponer información de clientes, pacientes ni del negocio. Para pymes de Berisso y La Plata.",
-    compromiso: "Coordinamos una llamada de 15 minutos, sin compromiso.",
+      "Voy a tu oficina, trabajo con tu equipo cuatro horas sobre casos reales de tu rubro y dos semanas después pongo a prueba lo aprendido.",
+    nota: "Precio cerrado por jornada, sin abonos ni costos ocultos. Te lo paso en una llamada de 15 minutos.",
+    imagen: "hero.webp",
+    alt: "Oficina de una pyme durante una jornada de trabajo.",
   },
   problema: {
     etiqueta: "// el problema",
-    titulo: "Hoy tu equipo ya usa IA. La pregunta es con qué datos.",
-    bajada:
-      "Pegar un texto en un chat de IA parece inofensivo. Depende de qué texto sea.",
-    cierre:
-      "Nadie lo hace de mala fe. Pasa porque nadie explicó qué se puede cargar y qué no.",
-    rubros: [
-      {
-        titulo: "Estudio contable",
-        icono: "calculator" as const,
-        texto:
-          "Un balance, un recibo de sueldo o una declaración jurada con CUIT y montos, pegados en un chat para «resumirlos más rápido».",
-      },
-      {
-        titulo: "Inmobiliaria",
-        icono: "house" as const,
-        texto:
-          "DNI, recibos de sueldo y garantías de inquilinos, cargados para armar un contrato o una tasación.",
-      },
-      {
-        titulo: "Clínica o consultorio",
-        icono: "stethoscope" as const,
-        texto:
-          "Historias clínicas o estudios de pacientes, copiados para redactar un informe. Son datos de salud, los más sensibles que hay.",
-      },
-      {
-        titulo: "Comercio",
-        icono: "store" as const,
-        texto:
-          "Listas de clientes, precios de proveedores y datos de tarjetas en mails que parecen del banco o de un proveedor.",
-      },
-    ],
-  },
-  servicios: {
-    etiqueta: "// servicios",
-    titulo: "Qué hacemos",
+    titulo: "Así empiezan la mayoría de los problemas",
+    cierre: "Nadie lo hace a propósito. Pasa porque nadie lo explicó.",
     items: [
       {
-        titulo: "IA segura para tu empresa",
-        icono: "shield-check" as const,
-        texto:
-          "Te ayudamos a usar herramientas de IA sin exponer datos de clientes ni información sensible. Definimos qué se puede cargar, en qué herramienta y quién la usa.",
+        numero: "01",
+        titulo: "El mail de ARCA (ex AFIP).",
+        texto: "«Tenés una deuda, descargá el detalle.» El adjunto no es un PDF.",
       },
       {
-        titulo: "Ciberseguridad para pymes",
-        icono: "lock-keyhole" as const,
-        texto:
-          "Capacitamos a tu equipo para reconocer estafas, phishing y fraudes, y ordenamos contraseñas, accesos y copias de seguridad. Sin jerga y sin vender miedo.",
+        numero: "02",
+        titulo: "El proveedor que «cambió el CBU».",
+        texto: "Un WhatsApp con su foto y su forma de hablar. La transferencia va a otra cuenta.",
       },
       {
-        titulo: "Diagnóstico de seguridad",
-        icono: "clipboard-check" as const,
-        texto:
-          "Revisamos cómo trabaja tu equipo, tus equipos y tus cuentas, y te entregamos una lista clara de qué arreglar primero.",
-      },
-      {
-        titulo: "Automatización de tareas",
-        icono: "workflow" as const,
-        texto:
-          "Sacamos de encima las tareas repetitivas: mails, planillas, carga de datos y respuestas frecuentes, con herramientas que tu equipo pueda usar solo.",
-      },
-      {
-        titulo: "Software a medida",
-        icono: "code-xml" as const,
-        texto:
-          "Sistemas pensados para quien no es técnico: fáciles de cargar, de entender y de usar.",
+        numero: "03",
+        titulo: "La planilla de clientes en ChatGPT.",
+        texto: "Para ordenarla más rápido. Con nombres, teléfonos y deudas adentro.",
       },
     ],
   },
   jornada: {
     etiqueta: "// producto",
-    titulo: "Jornada IA segura",
-    bajada:
-      "Una mañana de trabajo con tu equipo para usar IA con criterio y aprender a detectar engaños.",
+    titulo: "Jornada de seguridad e IA",
+    imagen: "jornada.webp",
+    alt: "Capacitación presencial, con el equipo mirando una pantalla.",
+    ancho: 1200,
+    alto: 800,
     datos: [
-      "4 horas, en tu oficina",
-      "Hasta 15 personas",
-      "Simulacro de phishing a las dos semanas, con autorización escrita del dueño",
-      "Informe final anónimo",
-      "ARS 700.000 · precio final, con factura C",
+      { valor: 4, unidad: "horas", detalle: "en tu oficina" },
+      { valor: 15, prefijo: "Hasta", unidad: "personas", detalle: "" },
+      {
+        valor: 2,
+        unidad: "semanas",
+        detalle: "después, simulacro con tu autorización por escrito",
+      },
     ],
-    llevanTitulo: "Qué se llevan",
+    llevanTitulo: "Qué se lleva tu equipo",
     llevan: [
-      "Reglas claras de qué datos se pueden cargar en una IA, en cuál y quién la usa.",
-      "Práctica con las herramientas que ya usan, sobre casos de su propio rubro.",
-      "Cómo reconocer un mail, un WhatsApp o una llamada falsos.",
-      "Un informe para el dueño con lo que hay que reforzar.",
+      {
+        icono: "mail-warning" as const,
+        texto: "Reconocer mails, WhatsApps y llamadas falsas.",
+      },
+      {
+        icono: "file-warning" as const,
+        texto: "Detectar adjuntos y archivos disfrazados antes de abrirlos.",
+      },
+      {
+        icono: "package-x" as const,
+        texto: "Por qué el software pirata y las extensiones del navegador son una puerta abierta.",
+      },
+      {
+        icono: "key-round" as const,
+        texto: "Contraseñas que se recuerdan y la verificación en dos pasos activada.",
+      },
+      {
+        icono: "sparkles" as const,
+        texto: "Qué datos nunca se cargan en una IA, y cómo usarla bien con el resto.",
+      },
     ],
+    destacado:
+      "Para vos, el dueño: un informe anónimo del simulacro con lo que conviene reforzar. Muestra cuántos cayeron y en qué, nunca quiénes.",
   },
   pasos: {
     etiqueta: "// cómo funciona",
-    titulo: "Tres pasos",
+    titulo: "Cómo funciona",
     items: [
       {
+        numero: "01",
         titulo: "Llamada de 15 minutos.",
-        texto:
-          "Nos contás cómo trabaja tu equipo y qué herramientas usan. Elegimos la fecha.",
+        texto: "Me contás cómo trabaja tu equipo y te paso el precio.",
       },
       {
-        titulo: "Jornada en tu oficina.",
-        texto: "Cuatro horas prácticas, con ejemplos de tu rubro.",
+        numero: "02",
+        titulo: "La jornada.",
+        texto: "Una mañana en tu oficina, práctica y con ejemplos de tu rubro.",
       },
       {
-        titulo: "Simulacro y cierre.",
-        texto:
-          "A las dos semanas enviamos un phishing de prueba, con tu autorización por escrito. Te entregamos un informe anónimo con los resultados y lo que conviene reforzar.",
+        numero: "03",
+        titulo: "El simulacro.",
+        texto: "A las dos semanas mando un engaño de prueba y te entrego el informe.",
       },
     ],
   },
-  casos: {
-    etiqueta: "// casos",
-    titulo: "Lo que ya construimos",
+  seguir: {
+    etiqueta: "// si querés seguir",
+    titulo: "Si querés seguir",
     items: [
       {
-        id: "el-nino-hoy",
-        nombre: "El Niño Hoy",
-        descripcion:
-          "Mapa de la lluvia en Argentina, armado con datos públicos oficiales y con las fuentes a la vista.",
-        enlace: "Ver el mapa",
-        url: config.elNinoHoyUrl,
-        archivo: "el-nino-hoy.png",
-        alt: "Captura de El Niño Hoy, mapa de la lluvia en Argentina",
-        ventana: "Se abre en una pestaña nueva",
+        titulo: "Diagnóstico.",
+        texto: "Reviso equipos, accesos y copias de seguridad, y te dejo una lista de qué arreglar primero.",
+      },
+      {
+        titulo: "Automatización.",
+        texto: "Saco de encima las tareas repetidas que hoy se hacen a mano.",
+      },
+      {
+        titulo: "IA aplicada.",
+        texto: "Armo herramientas de IA para tu negocio, con tus datos protegidos.",
       },
     ],
   },
-  sobreMi: {
-    etiqueta: "// sobre mí",
+  quien: {
+    etiqueta: "// quién la da",
     titulo: "Sebastián Feltes",
     texto:
-      "Soy desarrollador de software e instructor. Doy clases en el Centro de Formación Laboral N.º 404 y armo sistemas para comercios de la región. Fundé Exfutura para que las pymes de Berisso y La Plata usen tecnología nueva sin poner en riesgo lo que ya construyeron.",
+      "Soy instructor en el Centro de Formación Laboral N.º 404 y desarrollador de software. Doy cada jornada en persona.",
     altFoto: "Sebastián Feltes",
     monograma: "SF",
   },
-  preguntas: {
-    etiqueta: "// preguntas",
-    titulo: "Preguntas frecuentes",
-    items: [
-      {
-        pregunta: "¿Mi equipo tiene que saber de tecnología?",
-        respuesta:
-          "No. La jornada está pensada para gente que usa la computadora y el celular para trabajar, nada más. Arrancamos desde lo que ya hacen todos los días.",
-      },
-      {
-        pregunta: "¿Hay factura?",
-        respuesta: "Sí, factura C. El precio es final.",
-      },
-      {
-        pregunta: "¿El simulacro de phishing expone a algún empleado?",
-        respuesta:
-          "No. El informe es anónimo: muestra cuántas personas cayeron y en qué tipo de engaño, nunca quiénes. El simulacro se hace solo con la autorización escrita del dueño.",
-      },
-      {
-        pregunta: "¿Y si somos menos de 15?",
-        respuesta:
-          "El precio es el mismo: la jornada se prepara igual para 5 que para 15. Si son más de 15, lo armamos en dos grupos.",
-      },
-    ],
-  },
   contacto: {
     titulo: "¿Coordinamos 15 minutos?",
-    bajada:
-      "Te contamos cómo sería la jornada para tu equipo y respondemos tus dudas.",
+    bajada: "Te cuento cómo sería la jornada para tu equipo y te paso el precio.",
     enviar: "Enviar",
-    ok: "Gracias. Te escribimos pronto.",
-    error: "No se pudo abrir tu correo. Escribinos a",
-    aviso: "Usamos tus datos solo para responderte.",
+    ok: "Gracias. Te escribo pronto.",
+    error: "No se pudo abrir tu correo. Escribí a",
+    aviso: "Uso tus datos solo para responderte.",
     copiar: "Copiar email",
     copiado: "Email copiado.",
     copiaError: "No se pudo copiar el email. Seleccionalo y copialo a mano.",
     campos: [
-      { id: "nombre", etiqueta: "Nombre", tipo: "text", autoComplete: "name" },
-      { id: "empresa", etiqueta: "Empresa", tipo: "text", autoComplete: "organization" },
-      { id: "rubro", etiqueta: "Rubro", tipo: "text", autoComplete: "off" },
-      { id: "email", etiqueta: "Email", tipo: "email", autoComplete: "email" },
+      { id: "nombre", etiqueta: "Nombre", tipo: "text" as const, autoComplete: "name" },
+      { id: "empresa", etiqueta: "Empresa", tipo: "text" as const, autoComplete: "organization" },
       {
         id: "personas",
-        etiqueta: "¿Cuántas personas son?",
-        tipo: "text",
+        etiqueta: "Cantidad de personas",
+        tipo: "text" as const,
         autoComplete: "off",
       },
     ],
+    mensaje: { id: "mensaje", etiqueta: "Mensaje" },
     validacion: {
       nombre: "Completá tu nombre.",
       empresa: "Completá la empresa.",
-      rubro: "Completá el rubro.",
-      email: "Completá tu email.",
-      emailInvalido: "Ingresá un email válido.",
       personas: "Indicá cuántas personas son.",
+      mensaje: "Escribí un mensaje.",
     },
   },
   pie: {
-    lugar: "Berisso y La Plata, Buenos Aires",
+    lugar: "Berisso y La Plata",
+    software: "También hago software a medida.",
     derechos: "© 2026 Exfutura.",
+    fotos: "Fotos: Pexels",
   },
 } as const;

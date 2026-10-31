@@ -2,8 +2,7 @@ import { render, within } from "@testing-library/react";
 import { beforeEach, describe, expect, it } from "vitest";
 import App from "./App.tsx";
 import { config } from "./config.ts";
-import { content } from "./content.ts";
-import { llamadaAsunto, llamadaCuerpo, mailtoLlamada } from "./lib/mailto.ts";
+import { jornadaAsunto, mailtoJornada } from "./lib/mailto.ts";
 import { mockMatchMedia } from "./test/match-media.ts";
 
 beforeEach(() => {
@@ -18,40 +17,58 @@ describe("Exfutura", () => {
     expect(texto.includes("]")).toBe(false);
   });
 
-  it("no enlaza a WhatsApp ni a LinkedIn", () => {
-    const { container } = render(<App />);
-    const html = container.innerHTML.toLowerCase();
-    expect(html).not.toContain("wa.me");
-    expect(html).not.toContain("linkedin");
+  it("no muestra un precio", () => {
+    const texto = render(<App />).container.textContent ?? "";
+    expect(texto).not.toContain("ARS");
+    expect(texto).not.toContain("$");
+    expect(texto).not.toContain("700.000");
+    expect(texto.toLowerCase()).not.toContain("factura");
   });
 
-  it("arma el mailto de la llamada con asunto y cuerpo codificados", () => {
-    render(<App />);
-    const esperado = `mailto:${config.email}?subject=${encodeURIComponent(llamadaAsunto)}&body=${encodeURIComponent(llamadaCuerpo)}`;
-    expect(mailtoLlamada()).toBe(esperado);
-    const llamados = [...document.querySelectorAll("a")].filter(
-      (enlace) => enlace.textContent?.trim() === content.cta,
-    );
-    expect(llamados.length).toBeGreaterThan(0);
-    for (const enlace of llamados) {
-      expect(enlace.getAttribute("href")).toBe(esperado);
+  it("no usa escribinos ni verbos en plural", () => {
+    const texto = (render(<App />).container.textContent ?? "").toLowerCase();
+    for (const palabra of ["escribinos", "enseñamos", "revisamos", "te mostramos", "automatizamos"]) {
+      expect(texto).not.toContain(palabra);
     }
+  });
+
+  it("no enlaza a WhatsApp ni a LinkedIn", () => {
+    const { container } = render(<App />);
+    const hrefs = [...container.querySelectorAll("a")]
+      .map((enlace) => enlace.getAttribute("href") ?? "")
+      .join(" ")
+      .toLowerCase();
+    expect(hrefs).not.toContain("wa.me");
+    expect(hrefs).not.toContain("whatsapp");
+    expect(hrefs).not.toContain("linkedin");
+  });
+
+  it("arma el mailto de la jornada hacia el email configurado", () => {
+    const href = mailtoJornada("Nombre: Ada");
+    expect(href.startsWith(`mailto:${config.email}?`)).toBe(true);
+    expect(href).toContain(`subject=${encodeURIComponent(jornadaAsunto)}`);
+    expect(jornadaAsunto).toBe("Jornada de seguridad e IA");
+  });
+
+  it("muestra el problema, la jornada, los pasos y la continuidad", () => {
+    render(<App />);
+    const problema = document.getElementById("problema");
+    const jornada = document.getElementById("jornada");
+    const pasos = document.getElementById("como-funciona");
+    const seguir = document.getElementById("seguir");
+    if (!problema || !jornada || !pasos || !seguir) throw new Error("Faltan secciones.");
+    expect(within(problema).getAllByRole("listitem")).toHaveLength(3);
+    expect(within(jornada).getAllByRole("listitem")).toHaveLength(5);
+    expect(within(pasos).getAllByRole("listitem")).toHaveLength(3);
+    expect(within(seguir).getAllByRole("listitem")).toHaveLength(3);
   });
 
   it("no aplica animaciones cuando se prefiere menos movimiento", () => {
     mockMatchMedia(true);
     const { container } = render(<App />);
-    expect(container.querySelector(".logo-abertura")).toBeNull();
     expect(container.querySelector(".reveal")).toBeNull();
+    expect(container.querySelector(".logo-fondo-anim")).toBeNull();
+    expect(container.querySelector(".logo-fondo")).not.toBeNull();
     expect(container.querySelector("[data-animated='true']")).toBeNull();
-  });
-
-  it("muestra cinco servicios y un caso", () => {
-    render(<App />);
-    const servicios = document.getElementById("servicios");
-    const casos = document.getElementById("casos");
-    if (!servicios || !casos) throw new Error("Faltan secciones.");
-    expect(within(servicios).getAllByRole("listitem")).toHaveLength(5);
-    expect(within(casos).getAllByRole("listitem")).toHaveLength(1);
   });
 });

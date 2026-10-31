@@ -1,27 +1,19 @@
 import type { ComponentType, SVGProps } from "react";
 import type { Icono as Nombre } from "../content.ts";
-import Calculator from "lucide-react/icons/calculator";
-import ClipboardCheck from "lucide-react/icons/clipboard-check";
-import CodeXml from "lucide-react/icons/code-xml";
-import House from "lucide-react/icons/house";
-import LockKeyhole from "lucide-react/icons/lock-keyhole";
-import ShieldCheck from "lucide-react/icons/shield-check";
-import Stethoscope from "lucide-react/icons/stethoscope";
-import Store from "lucide-react/icons/store";
-import Workflow from "lucide-react/icons/workflow";
+import FileWarning from "lucide-react/icons/file-warning";
+import KeyRound from "lucide-react/icons/key-round";
+import MailWarning from "lucide-react/icons/mail-warning";
+import PackageX from "lucide-react/icons/package-x";
+import Sparkles from "lucide-react/icons/sparkles";
 
 type IconoComponente = ComponentType<SVGProps<SVGSVGElement> & { size?: number; strokeWidth?: number }>;
 
 const iconos: Record<Nombre, IconoComponente> = {
-  calculator: Calculator,
-  house: House,
-  stethoscope: Stethoscope,
-  store: Store,
-  "shield-check": ShieldCheck,
-  "lock-keyhole": LockKeyhole,
-  "clipboard-check": ClipboardCheck,
-  workflow: Workflow,
-  "code-xml": CodeXml,
+  "mail-warning": MailWarning,
+  "file-warning": FileWarning,
+  "package-x": PackageX,
+  "key-round": KeyRound,
+  sparkles: Sparkles,
 };
 
 type Props = {
@@ -30,5 +22,5 @@ type Props = {
 
 export function Icono({ nombre }: Props) {
   const Dibujo = iconos[nombre];
-  return <Dibujo aria-hidden="true" size={24} strokeWidth={1.5} className="text-noche" />;
+  return <Dibujo aria-hidden="true" size={22} strokeWidth={1.5} />;
 }
