@@ -1,7 +1,6 @@
 import { config } from "../config.ts";
 import { content } from "../content.ts";
 import { Etiqueta } from "./Etiqueta.tsx";
-import { LogoFondo } from "./Logo.tsx";
 import { Reveal } from "./Reveal.tsx";
 
 export function Quien() {
@@ -11,8 +10,7 @@ export function Quien() {
   const { quien } = content;
 
   return (
-    <section id="quien" className="seccion fondo-ibelick-blanco" aria-labelledby="titulo-quien">
-      <LogoFondo variant="dark" />
+    <section id="quien" className="seccion fondo-ibelick-blanco" data-tema="claro" aria-labelledby="titulo-quien">
       <Reveal>
         <div className="contenedor quien">
           {hayFoto ? (

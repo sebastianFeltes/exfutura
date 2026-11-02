@@ -1,12 +1,10 @@
 import { content } from "../content.ts";
 import { Etiqueta } from "./Etiqueta.tsx";
-import { LogoFondo } from "./Logo.tsx";
 import { Reveal } from "./Reveal.tsx";
 
 export function Seguir() {
   return (
-    <section id="seguir" className="seccion fondo-ibelick-claro" aria-labelledby="titulo-seguir">
-      <LogoFondo variant="dark" />
+    <section id="seguir" className="seccion fondo-ibelick-claro" data-tema="claro" aria-labelledby="titulo-seguir">
       <Reveal>
         <div className="contenedor">
           <Etiqueta>{content.seguir.etiqueta}</Etiqueta>

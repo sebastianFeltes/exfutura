@@ -1,12 +1,10 @@
 import { content } from "../content.ts";
 import { Etiqueta } from "./Etiqueta.tsx";
-import { LogoFondo } from "./Logo.tsx";
 import { Reveal } from "./Reveal.tsx";
 
 export function ComoFunciona() {
   return (
-    <section id="como-funciona" className="seccion fondo-ibelick-blanco" aria-labelledby="titulo-pasos">
-      <LogoFondo variant="dark" />
+    <section id="como-funciona" className="seccion fondo-ibelick-blanco" data-tema="claro" aria-labelledby="titulo-pasos">
       <Reveal>
         <div className="contenedor">
           <Etiqueta>{content.pasos.etiqueta}</Etiqueta>

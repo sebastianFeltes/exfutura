@@ -1,14 +1,13 @@
 import { content } from "../content.ts";
 import { Etiqueta } from "./Etiqueta.tsx";
 import { Foto } from "./Foto.tsx";
-import { LogoFondo } from "./Logo.tsx";
-import { Teseracto } from "./Teseracto.tsx";
+import HeroX from "./HeroX.tsx";
 
 export function Hero() {
   const { hero, cta, verJornada } = content;
 
   return (
-    <section id="inicio" className="hero on-noche con-grano fondo-ibelick" aria-labelledby="titulo-hero">
+    <section id="inicio" className="hero on-noche con-grano fondo-ibelick" data-tema="noche" aria-labelledby="titulo-hero">
       {__IMAGENES__[hero.imagen] ? (
         <>
           <Foto
@@ -23,10 +22,8 @@ export function Hero() {
           <div className="hero-velo" aria-hidden="true" />
         </>
       ) : null}
-      <LogoFondo variant="light" />
-      <div className="hero-brillo" aria-hidden="true" />
       <div className="contenedor hero-contenido">
-        <Teseracto />
+        <HeroX />
         <div className="hero-copia">
           <Etiqueta noche>{hero.etiqueta}</Etiqueta>
           <h1 id="titulo-hero" className="titulo-hero">

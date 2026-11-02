@@ -1,9 +1,9 @@
 import { content } from "./content.ts";
 import { ComoFunciona } from "./components/ComoFunciona.tsx";
-import { Contacto } from "./components/Contacto.tsx";
 import { Header } from "./components/Header.tsx";
 import { Hero } from "./components/Hero.tsx";
 import { Jornada } from "./components/Jornada.tsx";
+import { Pie } from "./components/Pie.tsx";
 import { Problema } from "./components/Problema.tsx";
 import { Quien } from "./components/Quien.tsx";
 import { Seguir } from "./components/Seguir.tsx";
@@ -32,8 +32,8 @@ export default function App() {
         <ComoFunciona />
         <Seguir />
         <Quien />
-        <Contacto />
       </main>
+      <Pie />
       <BarraMovil />
     </>
   );

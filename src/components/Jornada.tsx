@@ -1,6 +1,5 @@
 import { content } from "../content.ts";
 import { Etiqueta } from "./Etiqueta.tsx";
-import { LogoFondo } from "./Logo.tsx";
 import { Foto } from "./Foto.tsx";
 import { Icono } from "./Icono.tsx";
 import { Numero } from "./Numero.tsx";
@@ -8,10 +7,10 @@ import { Reveal } from "./Reveal.tsx";
 
 export function Jornada() {
   const { jornada } = content;
+  const hayFoto = __IMAGENES__[jornada.imagen] === true;
 
   return (
-    <section id="jornada" className="seccion fondo-ibelick on-noche con-grano" aria-labelledby="titulo-jornada">
-      <LogoFondo variant="light" />
+    <section id="jornada" className="seccion fondo-ibelick on-noche con-grano" data-tema="noche" aria-labelledby="titulo-jornada">
       <Reveal>
         <div className="contenedor">
           <Etiqueta noche>{jornada.etiqueta}</Etiqueta>
@@ -22,10 +21,7 @@ export function Jornada() {
             {jornada.datos.map((dato) => (
               <div key={dato.unidad} className="dato-grande">
                 <Numero valor={dato.valor} />
-                <p className="dato-linea">
-                  {"prefijo" in dato && dato.prefijo ? <span className="dato-prefijo">{dato.prefijo} </span> : null}
-                  <span className="dato-unidad">{dato.unidad}</span>
-                </p>
+                <p className="dato-unidad">{dato.unidad}</p>
                 {dato.detalle ? <p className="dato-detalle">{dato.detalle}</p> : null}
               </div>
             ))}
@@ -44,13 +40,16 @@ export function Jornada() {
                 ))}
               </ul>
             </div>
-            <Foto
-              archivo={jornada.imagen}
-              alt={jornada.alt}
-              width={jornada.ancho}
-              height={jornada.alto}
-              className="jornada-foto"
-            />
+            {hayFoto ? (
+              <Foto
+                archivo={jornada.imagen}
+                alt={jornada.alt}
+                width={jornada.ancho}
+                height={jornada.alto}
+                fallback={false}
+                className="jornada-foto"
+              />
+            ) : null}
           </div>
           <p className="destacado">{jornada.destacado}</p>
         </div>

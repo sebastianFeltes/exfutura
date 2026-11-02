@@ -49,7 +49,12 @@ function woffATtf(buffer) {
   return salida;
 }
 
-const marca = readFileSync("public/favicon.svg", "utf8");
+const marca = readFileSync("public/logo/exfutura-icono.svg", "utf8");
+const wordmark = readFileSync("public/logo/exfutura-claro.svg", "utf8");
+
+function interior(svg) {
+  return svg.replace(/^[\s\S]*?<svg[^>]*>/, "").replace(/<\/svg>\s*$/, "");
+}
 
 function png(svg, ancho, destino) {
   const imagen = new Resvg(svg, { fitTo: { mode: "width", value: ancho } });
@@ -72,13 +77,12 @@ const svg = `<?xml version="1.0" encoding="UTF-8"?>
       Array.from({ length: 67 }, (_, columna) => `<circle cx="${columna * 18 + 1}" cy="${fila * 18 + 1}" r="1"/>`).join(""),
     ).join("")}
   </g>
-  <svg x="80" y="150" width="88" height="88" viewBox="0 0 100 100">
-    <path d="M28 28 L72 72" fill="none" stroke="#14B8A6" stroke-width="18" stroke-linecap="square"/>
-    <path d="M72 28 L28 72" fill="none" stroke="#14B8A6" stroke-width="18" stroke-linecap="square"/>
+  <svg x="72" y="128" width="112" height="112" viewBox="0 0 1728 1728">
+    ${interior(marca)}
   </svg>
-  <text x="188" y="208" font-family="Manrope" font-size="42" font-weight="800" letter-spacing="-0.8">
-    <tspan fill="#F7F7F5">e</tspan><tspan fill="#14B8A6">x</tspan><tspan fill="#F7F7F5">futura</tspan>
-  </text>
+  <svg x="204" y="156" width="300" height="56" viewBox="0 450 8820 1630">
+    ${interior(wordmark)}
+  </svg>
   <text x="80" y="320" fill="#F7F7F5" font-family="Manrope" font-size="52" font-weight="800">
     <tspan x="80" dy="0">Una mañana para que tu equipo</tspan>
     <tspan x="80" dy="68">no caiga en estafas y use IA</tspan>

@@ -62,7 +62,7 @@ export const content = {
     alto: 800,
     datos: [
       { valor: 4, unidad: "horas", detalle: "en tu oficina" },
-      { valor: 15, prefijo: "Hasta", unidad: "personas", detalle: "" },
+      { valor: 15, unidad: "personas", detalle: "como máximo por jornada" },
       {
         valor: 2,
         unidad: "semanas",
@@ -149,9 +149,6 @@ export const content = {
     ok: "Gracias. Te escribo pronto.",
     error: "No se pudo abrir tu correo. Escribí a",
     aviso: "Uso tus datos solo para responderte.",
-    copiar: "Copiar email",
-    copiado: "Email copiado.",
-    copiaError: "No se pudo copiar el email. Seleccionalo y copialo a mano.",
     campos: [
       { id: "nombre", etiqueta: "Nombre", tipo: "text" as const, autoComplete: "name" },
       { id: "empresa", etiqueta: "Empresa", tipo: "text" as const, autoComplete: "organization" },
@@ -171,9 +168,9 @@ export const content = {
     },
   },
   pie: {
-    lugar: "Berisso y La Plata",
-    software: "También hago software a medida.",
+    lugar: "La Plata",
+    instagram: "exfutura.ar",
+    desarrollo: "Consulta por desarrollo.",
     derechos: "© 2026 Exfutura.",
-    fotos: "Fotos: Pexels",
   },
 } as const;

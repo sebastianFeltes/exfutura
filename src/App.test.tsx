@@ -67,8 +67,9 @@ describe("Exfutura", () => {
     mockMatchMedia(true);
     const { container } = render(<App />);
     expect(container.querySelector(".reveal")).toBeNull();
-    expect(container.querySelector(".logo-fondo-anim")).toBeNull();
-    expect(container.querySelector(".logo-fondo")).not.toBeNull();
+    expect(container.querySelector(".x-trazo")).toBeNull();
+    expect(container.querySelector("#inicio canvas")).not.toBeNull();
+    expect(container.querySelector(".logo-fondo")).toBeNull();
     expect(container.querySelector("[data-animated='true']")).toBeNull();
   });
 });
